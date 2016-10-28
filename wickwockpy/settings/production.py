@@ -5,6 +5,8 @@ Base settings, extended by the dev/staging/production settings.
 import os
 from django.utils.log import DEFAULT_LOGGING
 
+from .super_secret_settings import *
+
 DEBUG = False
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
@@ -316,3 +318,5 @@ USE_L10N = True
 
 # Secrets
 SECRET_KEY = '{{ secret_key }}'
+
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')

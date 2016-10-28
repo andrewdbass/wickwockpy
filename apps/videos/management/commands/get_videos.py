@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from apiclient.discovery import build
@@ -11,7 +12,7 @@ import isodate
 class Command(BaseCommand):
 
     def read_playlist(self, pageToken, data):
-         DEVELOPER_KEY = ""
+         DEVELOPER_KEY = settings.GOOGLE_API_KEY
          YOUTUBE_API_SERVICE_NAME = "youtube"
          YOUTUBE_API_VERSION = "v3"
          list_of_video_ids = []
