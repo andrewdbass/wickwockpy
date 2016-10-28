@@ -1,0 +1,8 @@
+django_tests:
+    tags:
+        - python
+    only:
+        - /^develop|master$/
+    script:
+        - bash .gitlab-ci.sh
+        - python manage.py test

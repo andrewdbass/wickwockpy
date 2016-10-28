@@ -1,0 +1,17 @@
+database:
+  image: postgres
+  environment:
+    - POSTGRES_USER=wickwockpy
+    - POSTGRES_PASSWORD=wickwockpy
+backend:
+  build: .
+  command: bash /wickwockpy/server/django_devserver.sh
+  volumes:
+  - .:/wickwockpy
+  links:
+  - database
+  ports:
+  - "8000:8000"
+  environment:
+    DB_HOST: database
+    PYTHONUNBUFFERED: 1
