@@ -11,3 +11,4 @@ git+https://dev.izeni.net/izeni/django-accounts.git@psa_fixes#egg=izeni-django-a
 django-extensions
 
 google-api-python-client==1.4.2
+oauth2client==1.5.2
