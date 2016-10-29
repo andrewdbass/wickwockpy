@@ -5,7 +5,7 @@ Base settings, extended by the dev/staging/production settings.
 import os
 from django.utils.log import DEFAULT_LOGGING
 
-from .super_secret_settings import *
+# from .super_secret_settings import *
 
 DEBUG = False
 
