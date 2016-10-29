@@ -7,7 +7,7 @@ djangorestframework==3.4.7
 google-api-python-client==1.4.2
 httplib2==0.9.2
 isodate==0.5.4
-izeni-django-accounts==1.1.1
+izeni-django-accounts
 oauth2client==1.4.12
 oauthlib==2.0.0
 Pillow==3.4.2
