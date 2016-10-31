@@ -14,5 +14,5 @@ class ArticleViewSet(viewsets.ModelViewSet):
         queryset = Article.objects.all()
         dur = self.request.query_params.get('duration', None)
         if dur is not None:
-            queryset = queryset.filter(duration__lte=dur).order_by('-duuration')
+            queryset = queryset.filter(duration__lte=dur).order_by('-duration')
         return queryset
