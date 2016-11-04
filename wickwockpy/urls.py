@@ -14,6 +14,9 @@ from apps.accounts.views import UserViewSet
 from apps.articles.views import ArticleViewSet
 from apps.videos.views import VideoViewSet
 from apps.podcasts.views import PodcastViewSet
+from apps.article_source_types.views import ArticleSourceTypeViewSet
+from apps.article_sources.views import ArticleSourceViewSet
+
 
 admin.site.site_title = admin.site.index_title = "wickwockpy backend"
 admin.site.site_header = mark_safe('<img src="{img}" alt="{alt}"/>'.format(
@@ -26,6 +29,9 @@ router.register(r'users', UserViewSet, base_name='users')
 router.register(r'articles', ArticleViewSet, base_name='article')
 router.register(r'videos', VideoViewSet, base_name='video')
 router.register(r'podcasts', PodcastViewSet, base_name='podcats')
+router.register(r'article_source_types', ArticleSourceTypeViewSet, base_name='article_source_types')
+router.register(r'article_sources', ArticleSourceViewSet, base_name='article_sources')
+
 
 urlpatterns = [
     url(r'^favicon.ico$', RedirectView.as_view(
