@@ -114,8 +114,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         l = []
-        for article in Article.objects.all():
-            l.append(article.title)
+        Article.objects.all().delete();
         a = ArticleSource.objects.all()
         medium = ArticleSourceType.objects.get(article_source_type="medium_publication")
         print(medium)
