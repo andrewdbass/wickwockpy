@@ -43,6 +43,11 @@ def get_stuff(root, params, l):
     articlesArray = data['payload']['references']['Post']
 
     for article in articlesArray:
+        if articlesArray[article]['title'] not in l:
+        else:
+            print("DUPLICATEFOUND")
+
+    for article in articlesArray:
         # print(article)
         l.append(articlesArray[article]['title'])
 

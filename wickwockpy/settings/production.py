@@ -47,7 +47,9 @@ INSTALLED_APPS = (
     'apps.videos',
     'apps.podcasts',
     'apps.article_source_types',
-    'apps.article_sources'
+    'apps.article_sources',
+    'apps.video_source_types',
+    'apps.video_sources'
 )
 
 # Domain configuration
@@ -319,6 +321,6 @@ USE_L10N = True
 
 
 # Secrets
-SECRET_KEY = '511981021838784561361217846731538071711851198102183878456136'
+SECRET_KEY = '{{ secret_key }}'
 
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')

@@ -31,7 +31,7 @@ class Command(BaseCommand):
         articlesArray = data['payload']['references']['Post']
 
         for article in articlesArray:
-            # print(article)
+            print(article)
             if articlesArray[article]['title'] not in l:
                 obj = {};
                 obj['title'] = articlesArray[article]['title']
