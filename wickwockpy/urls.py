@@ -16,6 +16,7 @@ from apps.videos.views import VideoViewSet
 from apps.podcasts.views import PodcastViewSet
 from apps.article_source_types.views import ArticleSourceTypeViewSet
 from apps.article_sources.views import ArticleSourceViewSet
+from apps.tags.views import TagViewSet
 
 
 admin.site.site_title = admin.site.index_title = "wickwockpy backend"
@@ -31,6 +32,7 @@ router.register(r'videos', VideoViewSet, base_name='video')
 router.register(r'podcasts', PodcastViewSet, base_name='podcats')
 router.register(r'article_source_types', ArticleSourceTypeViewSet, base_name='article_source_types')
 router.register(r'article_sources', ArticleSourceViewSet, base_name='article_sources')
+router.register(r'tags', TagViewSet, base_name='tags')
 
 
 urlpatterns = [

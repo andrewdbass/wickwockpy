@@ -13,7 +13,7 @@ import isodate
 
 class Command(BaseCommand):
 
-    def read_playlist(self, playlist, pageToken, vids):
+    def read_playlist(self, playlist, pageToken, vids, tags):
          DEVELOPER_KEY = settings.GOOGLE_API_KEY
          YOUTUBE_API_SERVICE_NAME = "youtube"
          YOUTUBE_API_VERSION = "v3"
@@ -38,13 +38,18 @@ class Command(BaseCommand):
            part="id,snippet,contentDetails",
            maxResults="50"
          ).execute()
-         vids.extend(search['items'])
+         items = []
+         for item in search['items']:
+             print(item)
+             item['tags'] = tags
+             items.append(item)
+         vids.extend(items)
 
          if 'nextPageToken' in search_response:
-           return self.read_playlist(playlist, search_response['nextPageToken'], vids)
+           return self.read_playlist(playlist, search_response['nextPageToken'], vids, tags)
          else:
            return vids;
-    def read_channel(self, channelName, vids):
+    def read_channel(self, channelName, vids, tags):
          DEVELOPER_KEY = settings.GOOGLE_API_KEY
          YOUTUBE_API_SERVICE_NAME = "youtube"
          YOUTUBE_API_VERSION = "v3"
@@ -57,9 +62,11 @@ class Command(BaseCommand):
              part="id,contentDetails",
              forUsername=channelName
          ).execute()
-
-         playlist = channel['items'][0]['contentDetails']['relatedPlaylists']['uploads']
-         return self.read_playlist(playlist, None, vids)
+         if (len(channel['items'])>0):
+             playlist = channel['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+             return self.read_playlist(playlist, None, vids, tags)
+         else:
+             return vids
 
 
     def _get_videos(self):
@@ -67,14 +74,14 @@ class Command(BaseCommand):
         vids = []
         for source in sources:
             if source.video_source_type==VideoSourceType.objects.get(video_source_type="youtube_playlist"):
-                vids = self.read_playlist(source.link, None, vids)
+                vids = self.read_playlist(source.link, None, vids, source.tags)
             if source.video_source_type==VideoSourceType.objects.get(video_source_type="youtube_channel"):
-                vids = self.read_channel(source.link, vids)
+                vids = self.read_channel(source.link, vids, source.tags)
         print(len(vids))
 
         Video.objects.all().delete()
         for vid in vids:
-
+            print(vids)
             title = vid['snippet']['title']
             link = "https://www.youtube.com/embed/"+vid['id']+"/?autoplay=1&fs=1"
             if 'standard' in vid['snippet']['thumbnails']:
@@ -83,9 +90,13 @@ class Command(BaseCommand):
                 image = vid['snippet']['thumbnails']['default']['url']
             source = "Youtube"
             duration = isodate.parse_duration(vid['contentDetails']['duration']).total_seconds()/60 +1
+            tags = vid['tags']
             print(title + " " + link + " " + image + " " + source + " " + str(duration))
             new_vid = Video(title=title, link=link, image=image, source=source, duration=int(duration))
             new_vid.save()
+            for tag in tags.all():
+                new_vid.tags.add(tag)
+
 
 
     def handle(self, *args, **options):

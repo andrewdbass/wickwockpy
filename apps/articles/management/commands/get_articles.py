@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from apps.articles.models import Article
 from apps.article_sources.models import ArticleSource
 from apps.article_source_types.models import ArticleSourceType
+from apps.tags.models import Tag
 
 from urllib.request import Request, urlopen
 import urllib.parse
@@ -13,7 +14,7 @@ class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
 
-    def get_articles_from_medium_publications(self, root, params, l):
+    def get_articles_from_medium_publications(self, root, params, l, tags):
         # p = urllib.parse.urlencode(params)
         url = root+"?"+params
         print(url)
@@ -39,8 +40,11 @@ class Command(BaseCommand):
                 obj['link'] = 'https://www.medium.com/posts/' + articlesArray[article]['id']
                 if 'previewImage' in articlesArray[article]['virtuals']:
                     obj['image'] = articlesArray[article]['virtuals']['previewImage']["imageId"]
+                obj['tags'] = tags
                 new = Article(title = obj['title'], link = obj['link'], duration = obj['duration'], image = obj['image'], source = 'Medium')
                 new.save()
+                for tag in tags:
+                    new.tags.add(tag)
                 l.append(obj['title'])
 
         if "paging" in data["payload"]:
@@ -52,8 +56,8 @@ class Command(BaseCommand):
             #     paramString = paramString + "ignoredIds=" + i
 
             if "api" in root:
-                return self.get_articles_from_medium_publications(root, paramString, l)
-            return self.get_articles_from_medium_publications("https://www.medium.com"+ data["payload"]["paging"]["path"], paramString, l)
+                return self.get_articles_from_medium_publications(root, paramString, l, tags)
+            return self.get_articles_from_medium_publications("https://www.medium.com"+ data["payload"]["paging"]["path"], paramString, l, tags)
         return(l)
 
     # def readData(self, to):
@@ -120,10 +124,12 @@ class Command(BaseCommand):
         print(medium)
 
         for source in a:
-         if source.article_source_type == medium :
-             self.get_articles_from_medium_publications(source.link,"format=json",l)
+            if source.article_source_type == medium :
+                self.get_articles_from_medium_publications(source.link,"format=json",l, source.tags.all())
+        #
+        # print(len(l))
 
-        print(len(l))
+
         # Article.objects.all().delete()
         # # self._get_articles()
         # arr = []

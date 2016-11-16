@@ -7,6 +7,8 @@ class Video(models.Model):
     image = models.CharField(max_length=144)
     source = models.CharField(max_length=144)
     duration = models.IntegerField()
+    tags = models.ManyToManyField("tags.Tag")
+
 
     def __str__(self):
         return self.title
