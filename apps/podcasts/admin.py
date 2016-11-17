@@ -1,3 +1,4 @@
 from django.contrib import admin
+from apps.podcasts.models import Podcast
 
-# Register your models here.
+admin.site.register(Podcast)

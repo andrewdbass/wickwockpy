@@ -17,7 +17,10 @@ class Command(BaseCommand):
         data = data['channel']['item']
         for podcast in data:
             if podcast['author']:
-                source = podcast['author']['name']
+                if podcast['author']['name']:
+                    source = podcast['author']['name']
+                else:
+                    source = ""
             else:
                 source = ""
             if podcast['enclosure']['duration'] is not None:
