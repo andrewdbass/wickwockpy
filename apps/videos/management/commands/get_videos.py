@@ -92,8 +92,7 @@ class Command(BaseCommand):
             duration = isodate.parse_duration(vid['contentDetails']['duration']).total_seconds()/60 +1
             tags = vid['tags']
             print(title + " " + link + " " + image + " " + source + " " + str(duration))
-            new_vid = Video(title=title, link=link, image=image, source=source, duration=int(duration))
-            new_vid.save()
+            new_vid = Video.objects.create(title=title, link=link, image=image, source=source, duration=int(duration))
             for tag in tags.all():
                 new_vid.tags.add(tag)
 

@@ -314,7 +314,7 @@ WSGI_APPLICATION = 'wickwockpy.wsgi.application'
 
 
 # i18n
-USE_TZ = True
+USE_TZ = False
 TIME_ZONE = 'America/Denver'
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True

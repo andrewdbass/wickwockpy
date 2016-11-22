@@ -7,8 +7,12 @@ from apps.tags.models import Tag
 from urllib.request import Request, urlopen
 import urllib.parse
 
+from datetime import datetime
+import time
 import json
 import random
+import feedparser
+
 
 class Command(BaseCommand):
     args = '<foo bar ...>'
@@ -115,31 +119,55 @@ class Command(BaseCommand):
     #             arr.append(obj['title'])
     #
     #     return arr
+    def get_articles_from_rss_feed(self, link, tags):
+        articles = Article.objects.all()
+        feed = feedparser.parse(link)['items']
+        for item in feed:
+            if not articles.filter(title=item["title_detail"]['value']).exists():
+                dur= "5"
+                if bool(random.getrandbits(1)):
+                    req = Request(item['link'],headers={'User-Agent': 'Opera/9.80'})
+                else:
+                    req = Request(item['link'],headers={'User-Agent': 'Mozilla/5.0'})
+                print("start")
+                data= urllib.request.urlopen(req).read().decode('utf-8')
+                print("end")
+                s = data
+                loc = data.find(" min read")
+                # s = s[len(s)-2:]
+                dur = s[loc-1:loc]
+
+
+                image = ""
+                if "src=" in item['summary']:
+                    s = item['summary']
+                    s = s[s.find('src="')+5:]
+                    s = s[:s.find('"')]
+                    if "medium" not in s:
+                        image = s
+                if int(dur)>1:
+                    new_article = Article.objects.create(
+                        title=item["title_detail"]['value'],
+                        link=item['link'],
+                        image=image,
+                        source="Medium",
+                        duration=int(dur)
+                        )
+                    for tag in tags:
+                        new_article.tags.add(tag)
+                    print(new_article.title)
+
+            else:
+                print("duplicate")
+
 
     def handle(self, *args, **options):
-        l = []
-        Article.objects.all().delete();
+        # l = []
+        # Article.objects.all().delete()
         a = ArticleSource.objects.all()
         medium = ArticleSourceType.objects.get(article_source_type="medium_publication")
-        print(medium)
+        rss_feed = ArticleSourceType.objects.get(article_source_type="rss_feed")
 
         for source in a:
-            if source.article_source_type == medium :
-                self.get_articles_from_medium_publications(source.link,"format=json",l, source.tags.all())
-        #
-        # print(len(l))
-
-
-        # Article.objects.all().delete()
-        # # self._get_articles()
-        # arr = []
-        #
-        # tags = ["business", "startups", "sports", "politics", "technology",
-        #         "humor", "entertainment", 'life', 'travel', 'user-experience',
-        #         'design', 'inspiration', 'inovation', 'science', 'history',
-        #         'adventure','creativity', 'self-improvement', 'photography',
-        #         'writing', 'ideas','life-lessons']
-        #
-        # for tag in tags:
-        #     arr.append(self.get_data("https://medium.com/_/api/tags/"+tag+"/posts?format=json", arr))
-        # self.get_data()
+            if source.article_source_type == rss_feed:
+                self.get_articles_from_rss_feed(source.link, source.tags.all())
