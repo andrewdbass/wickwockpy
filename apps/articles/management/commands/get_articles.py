@@ -130,7 +130,7 @@ class Command(BaseCommand):
                 else:
                     req = Request(item['link'],headers={'User-Agent': 'Mozilla/5.0'})
                 print("start")
-                data= urllib.request.urlopen(req).read().decode('utf-8')
+                data= urllib.request.urlopen(req, timeout=4).read().decode('utf-8')
                 print("end")
                 s = data
                 loc = data.find(" min read")
