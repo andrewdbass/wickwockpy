@@ -14,5 +14,5 @@ class PodcastViewSet(viewsets.ModelViewSet):
         queryset = Podcast.objects.all()
         dur = self.request.query_params.get('duration', None)
         if dur is not None:
-            queryset = queryset.filter(duration__lte=dur).order_by('-duration','id')
+            queryset = queryset.filter(duration__lte=dur).order_by('-duration','-id')
         return queryset
