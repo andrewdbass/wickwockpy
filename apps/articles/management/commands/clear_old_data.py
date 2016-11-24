@@ -13,4 +13,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         Article.objects.all().filter(published__lte=datetime.now()-timedelta(days=1)).delete()
         # Video.objects.all().filter(published__lte=datetime.now()-timedelta(days=1)).delete()
-        # Postcast.objects.all().filter(published__lte=datetime.now()-timedelta(days=1)).delete()
+        Postcast.objects.all().filter(published__lte=datetime.now()-timedelta(days=5)).delete()

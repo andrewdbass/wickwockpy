@@ -17,7 +17,8 @@ from apps.podcasts.views import PodcastViewSet
 from apps.article_source_types.views import ArticleSourceTypeViewSet
 from apps.article_sources.views import ArticleSourceViewSet
 from apps.tags.views import TagViewSet
-
+from apps.podcast_source_types.views import PodcastSourceTypeViewSet
+from apps.podcast_sources.views import PodcastSourceViewSet
 
 admin.site.site_title = admin.site.index_title = "wickwockpy backend"
 admin.site.site_header = mark_safe('<img src="{img}" alt="{alt}"/>'.format(
@@ -33,6 +34,8 @@ router.register(r'podcasts', PodcastViewSet, base_name='podcats')
 router.register(r'article_source_types', ArticleSourceTypeViewSet, base_name='article_source_types')
 router.register(r'article_sources', ArticleSourceViewSet, base_name='article_sources')
 router.register(r'tags', TagViewSet, base_name='tags')
+router.register(r'podcast_source_types', PodcastSourceTypeViewSet, base_name='podcast_source_types')
+router.register(r'podcast_sources', PodcastSourceViewSet, base_name='podcast_sources')
 
 
 urlpatterns = [

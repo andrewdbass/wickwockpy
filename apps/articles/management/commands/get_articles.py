@@ -7,7 +7,7 @@ from apps.tags.models import Tag
 from urllib.request import Request, urlopen
 import urllib.parse
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import json
 import random
@@ -145,13 +145,16 @@ class Command(BaseCommand):
                     s = s[:s.find('"')]
                     if "medium" not in s:
                         image = s
-                if int(dur)>1:
+
+                t = datetime.strptime(item['published'], "%a, %d %b %Y %H:%M:%S %Z")
+                if int(dur)>1 and t>=datetime.now()-timedelta(days=1):
                     new_article = Article.objects.create(
                         title=item["title_detail"]['value'],
                         link=item['link'],
                         image=image,
                         source="Medium",
-                        duration=int(dur)
+                        duration=int(dur),
+                        # published= t
                         )
                     for tag in tags:
                         new_article.tags.add(tag)

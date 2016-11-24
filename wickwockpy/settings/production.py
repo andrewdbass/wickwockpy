@@ -50,7 +50,9 @@ INSTALLED_APPS = (
     'apps.article_sources',
     'apps.video_source_types',
     'apps.video_sources',
-    'apps.tags'
+    'apps.tags',
+    'apps.podcast_sources',
+    'apps.podcast_source_types'
 )
 
 # Domain configuration
