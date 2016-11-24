@@ -7,6 +7,9 @@ from apps.videos.models import Video
 from apps.video_sources.models import VideoSource
 from apps.video_source_types.models import VideoSourceType
 import isodate
+
+from datetime import datetime, timedelta
+
 # from apiclient.errors import HttpError
 # from oauth2client.tools import argparser
 
@@ -79,9 +82,9 @@ class Command(BaseCommand):
                 vids = self.read_channel(source.link, vids, source.tags)
         print(len(vids))
 
-        Video.objects.all().delete()
+        # Video.objects.all().delete()
+        all_videos = Video.objects.all()
         for vid in vids:
-            print(vids)
             title = vid['snippet']['title']
             link = "https://www.youtube.com/embed/"+vid['id']+"/?autoplay=1&fs=1"
             if 'standard' in vid['snippet']['thumbnails']:
@@ -91,10 +94,25 @@ class Command(BaseCommand):
             source = "Youtube"
             duration = isodate.parse_duration(vid['contentDetails']['duration']).total_seconds()/60 +1
             tags = vid['tags']
+            published = vid['snippet']['publishedAt']
+            published = published[:published.find("T")]
+            # 2016-11-22T00:29:37.000Z
+            date_object = datetime.strptime(published, '%Y-%m-%d')
+            print(date_object)
             print(title + " " + link + " " + image + " " + source + " " + str(duration))
-            new_vid = Video.objects.create(title=title, link=link, image=image, source=source, duration=int(duration))
-            for tag in tags.all():
-                new_vid.tags.add(tag)
+            if not all_videos.filter(title=title).exists() and date_object>=datetime.now()-timedelta(days=2):
+                new_vid = Video.objects.create(
+                title=title,
+                link=link,
+                image=image,
+                source=source,
+                duration=int(duration),
+                published= date_object
+                )
+                for tag in tags.all():
+                    new_vid.tags.add(tag)
+            else:
+                print("duplicate or old")
 
 
 
