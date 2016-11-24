@@ -73,7 +73,7 @@ class Command(BaseCommand):
                             image=obj['image'],
                             source=obj['source'],
                             duration=obj['duration'],
-                            # published= obj['published']
+                            published= obj['published']
                             )
                         for tag in source.tags.all():
                             new_podcast.tags.add(tag)
