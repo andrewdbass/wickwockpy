@@ -16,8 +16,12 @@ class Command(BaseCommand):
     def clear_html_tags(self, s):
         if(s.find("<") == -1):
             return s
-        else:
+        elif len(s)<2000:
+            print(len(s))
             return self.clear_html_tags(s[:s.find("<")] + s[s.find(">")+1:])
+        else:
+            return s
+
 
 
     def get_podcasts(self, *args, **kwargs):
