@@ -123,6 +123,7 @@ class Command(BaseCommand):
         articles = Article.objects.all()
         feed = feedparser.parse(link)['items']
         for item in feed:
+            print(item)
             if not articles.filter(title=item["title_detail"]['value']).exists():
                 dur= "5"
                 if bool(random.getrandbits(1)):
@@ -143,6 +144,7 @@ class Command(BaseCommand):
                     s = item['summary']
                     s = s[s.find('src="')+5:]
                     s = s[:s.find('"')]
+                    # image = s
                     if "medium" not in s:
                         image = s
 

@@ -18,12 +18,13 @@ class ArticleViewSet(viewsets.ModelViewSet):
         tags = self.request.query_params.getlist('tags', None)
         article_id = self.request.query_params.get('id', None)
         print(dur)
-        if len(tags) != 0:
+        if len(tags) != 0 and dur is not None:
             queryset = queryset.filter(tags__in=tags).distinct()
-        if dur is not None:
             queryset = queryset.filter(duration__lte=dur).order_by('-duration','-id')
         if article_id is not None:
             queryset = queryset.filter(id=article_id)
+        # else:
+        #     queryset= None;
         return queryset
 
 class ArticleDetailViewSet(viewsets.ModelViewSet):
