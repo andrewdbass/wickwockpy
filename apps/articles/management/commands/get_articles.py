@@ -6,6 +6,7 @@ from apps.tags.models import Tag
 
 from urllib.request import Request, urlopen
 import urllib.parse
+import requests
 
 from datetime import datetime, timedelta
 import time
@@ -132,7 +133,8 @@ class Command(BaseCommand):
                 else:
                     req = Request(item['link'],headers={'User-Agent': 'Mozilla/5.0'})
                 print("start")
-                data= urllib.request.urlopen(req, timeout=4).read().decode('utf-8')
+                # data= urllib.request.urlopen(req, timeout=4).read().decode('utf-8')
+                data = requests.get(item['link']).text
                 print("end")
                 s = data
                 loc = data.find(" min read")
