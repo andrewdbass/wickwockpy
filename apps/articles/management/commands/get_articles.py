@@ -126,17 +126,17 @@ class Command(BaseCommand):
             print(item)
             if not articles.filter(title=item["title_detail"]['value']).exists():
                 dur= "5"
-                if bool(random.getrandbits(1)):
-                    req = Request(item['link'],headers={'User-Agent': 'Opera/9.80'})
-                else:
-                    req = Request(item['link'],headers={'User-Agent': 'Mozilla/5.0'})
-                print("start")
-                data= urllib.request.urlopen(req, timeout=4).read().decode('utf-8')
-                print("end")
-                s = data
-                loc = data.find(" min read")
-                # s = s[len(s)-2:]
-                dur = s[loc-1:loc]
+                # if bool(random.getrandbits(1)):
+                #     req = Request(item['link'],headers={'User-Agent': 'Opera/9.80'})
+                # else:
+                #     req = Request(item['link'],headers={'User-Agent': 'Mozilla/5.0'})
+                # print("start")
+                # data= urllib.request.urlopen(req, timeout=4).read().decode('utf-8')
+                # print("end")
+                # s = data
+                # loc = data.find(" min read")
+                # # s = s[len(s)-2:]
+                # dur = s[loc-1:loc]
 
 
                 image = ""
