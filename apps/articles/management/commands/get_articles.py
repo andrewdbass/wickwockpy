@@ -144,8 +144,8 @@ class Command(BaseCommand):
                     s = item['summary']
                     s = s[s.find('src="')+5:]
                     s = s[:s.find('"')]
-                    # image = s
-                    if "medium" not in s:
+                    image = s
+                    if '""' not in s:
                         image = s
 
                 t = datetime.strptime(item['published'], "%a, %d %b %Y %H:%M:%S %Z")
