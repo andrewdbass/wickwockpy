@@ -142,7 +142,7 @@ class Command(BaseCommand):
                 image = ""
                 if "src=" in item['summary']:
                     s = item['summary']
-                    s = s[s.find('src="')+5:]
+                    s = s[s.find('<img src="')+10:]
                     s = s[:s.find('"')]
                     image = s
                     print(s)
