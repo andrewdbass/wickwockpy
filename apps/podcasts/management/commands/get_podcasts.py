@@ -15,13 +15,13 @@ class Command(BaseCommand):
 
     def clear_html_tags(self, s):
         if(s.find("<") == -1):
+            if len(s)>200:
+                s = s[:190]
             return s
-        elif len(s)<2000:
-            print(len(s))
-            return self.clear_html_tags(s[:s.find("<")] + s[s.find(">")+1:])
+            print(s)
         else:
-            return s
-
+            s = s[s.find(">")+1:]
+            return self.clear_html_tags(s)
 
 
     def get_podcasts(self, *args, **kwargs):
@@ -69,7 +69,6 @@ class Command(BaseCommand):
                         obj["duration"] = dur1
 
                     obj["published"] = datetime.fromtimestamp(mktime(item["published_parsed"]))
-
                     if obj["published"]>=datetime.now()-timedelta(days=5):
                         new_podcast = Podcast.objects.create(
                             title=obj['title'],
@@ -77,7 +76,8 @@ class Command(BaseCommand):
                             image=obj['image'],
                             source=obj['source'],
                             duration=obj['duration'],
-                            published= obj['published']
+                            published= obj['published'],
+                            description = obj['description']
                             )
                         for tag in source.tags.all():
                             new_podcast.tags.add(tag)
