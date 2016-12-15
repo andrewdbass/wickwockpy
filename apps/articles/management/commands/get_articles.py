@@ -145,6 +145,7 @@ class Command(BaseCommand):
                     s = s[s.find('src="')+5:]
                     s = s[:s.find('"')]
                     image = s
+                    print(s)
                     if '""' not in s:
                         image = s
 
