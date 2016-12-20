@@ -100,7 +100,7 @@ class Command(BaseCommand):
             date_object = datetime.strptime(published, '%Y-%m-%d')
             print(date_object)
             print(title + " " + link + " " + image + " " + source + " " + str(duration))
-            if not all_videos.filter(title=title).exists() and date_object>=datetime.now()-timedelta(days=2):
+            if not all_videos.filter(title=title).exists() and date_object>=datetime.now()-timedelta(days=14):
                 new_vid = Video.objects.create(
                 title=title,
                 link=link,
