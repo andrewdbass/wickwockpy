@@ -132,10 +132,10 @@ class Command(BaseCommand):
                     req = Request(item['link'],headers={'User-Agent': 'Opera/9.80'})
                 else:
                     req = Request(item['link'],headers={'User-Agent': 'Mozilla/5.0'})
-                print("start")
+                # print("start")
                 data= urllib.request.urlopen(req, timeout=4).read().decode('utf-8')
                 # data = requests.get(item['link']).text
-                print("end")
+                # print("end")
                 s = data
                 loc = data.find(" min read")
                 # s = s[len(s)-2:]
@@ -144,7 +144,7 @@ class Command(BaseCommand):
                     dur = s[1:]
                 else:
                     dur = s
-                print(dur)
+                # print(dur)
 
 
                 image = ""
@@ -152,11 +152,13 @@ class Command(BaseCommand):
                     s = item['summary']
                     s = s[s.find('<img src="')+10:]
                     s = s[:s.find('"')]
-                    image = s
+                    if 'jpeg' in s or 'jpg' in s or 'png' in s :
+                        image = s
                     print(s)
-                    if '""' not in s:
-                        if 'jpeg' in s:
-                            image = s
+                    # if '""' not in s:
+                    #     if 'jpeg' in s:
+                    #         image = s
+                print(image)
 
                 t = datetime.strptime(item['published'], "%a, %d %b %Y %H:%M:%S %Z")
                 if int(dur)>1 and t>=datetime.now()-timedelta(days=1):
