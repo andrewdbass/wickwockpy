@@ -154,8 +154,9 @@ class Command(BaseCommand):
                     s = s[:s.find('"')]
                     image = s
                     print(s)
-                    if '""' not in s and ('jpg' in s or 'png' in s or 'jpeg' in s):
-                        image = s
+                    if '""' not in s:
+                        if 'jpeg' in s:
+                            image = s
 
                 t = datetime.strptime(item['published'], "%a, %d %b %Y %H:%M:%S %Z")
                 if int(dur)>1 and t>=datetime.now()-timedelta(days=1):
