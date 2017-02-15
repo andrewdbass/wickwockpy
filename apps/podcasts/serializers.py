@@ -5,3 +5,4 @@ from apps.podcasts.models import Podcast
 class PodcastSerializer(serializers.ModelSerializer):
     class Meta:
         model = Podcast
+        depth = 1
