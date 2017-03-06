@@ -45,6 +45,9 @@ class Command(BaseCommand):
 
                     if "links" in item:
                         for link in item['links']:
+                            print("______________")
+                            print(link)
+                            print("______________")
                             if link['type'] == "audio/mpeg":
                                 obj['link'] = link['href']
                                 dur1 = int(link['length'])
@@ -69,7 +72,7 @@ class Command(BaseCommand):
                         obj["duration"] = dur1
 
                     obj["published"] = datetime.fromtimestamp(mktime(item["published_parsed"]))
-                    if obj["published"]>=datetime.now()-timedelta(days=5) and "link" in obj:
+                    if obj["published"]>=datetime.now()-timedelta(days=5):
                         new_podcast = Podcast.objects.create(
                             title=obj['title'],
                             link=obj['link'],
