@@ -48,7 +48,6 @@ class Command(BaseCommand):
                             print("______________")
                             print(link)
                             print("______________")
-                            if "href" in link:
                             if link['type'] == "audio/mpeg":
                                 obj['link'] = link['href']
                                 dur1 = int(link['length'])
