@@ -48,8 +48,8 @@ class Command(BaseCommand):
                             print("______________")
                             print(link)
                             print("______________")
+                            if "href" in link:
                             if link['type'] == "audio/mpeg":
-                                obj['link'] = link['href']
                                 dur1 = int(link['length'])
                             if "itunes_duration" in link:
                                 dur2 = link["itunes_duration"]
@@ -72,7 +72,7 @@ class Command(BaseCommand):
                         obj["duration"] = dur1
 
                     obj["published"] = datetime.fromtimestamp(mktime(item["published_parsed"]))
-                    if obj["published"]>=datetime.now()-timedelta(days=5):
+                    if obj["published"]>=datetime.now()-timedelta(days=30):
                         new_podcast = Podcast.objects.create(
                             title=obj['title'],
                             link=obj['link'],
