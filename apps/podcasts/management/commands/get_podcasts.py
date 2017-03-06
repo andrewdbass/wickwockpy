@@ -69,7 +69,7 @@ class Command(BaseCommand):
                         obj["duration"] = dur1
 
                     obj["published"] = datetime.fromtimestamp(mktime(item["published_parsed"]))
-                    if obj["published"]>=datetime.now()-timedelta(days=5):
+                    if obj["published"]>=datetime.now()-timedelta(days=5) and "link" in obj:
                         new_podcast = Podcast.objects.create(
                             title=obj['title'],
                             link=obj['link'],
