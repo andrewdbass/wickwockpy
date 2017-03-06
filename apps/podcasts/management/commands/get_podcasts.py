@@ -50,6 +50,7 @@ class Command(BaseCommand):
                             print("______________")
                             if "href" in link:
                             if link['type'] == "audio/mpeg":
+                                obj['link'] = link['href']
                                 dur1 = int(link['length'])
                             if "itunes_duration" in link:
                                 dur2 = link["itunes_duration"]
